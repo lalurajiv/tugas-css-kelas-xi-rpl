@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Input Data Siswa (JSON)</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 700px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .hapus {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Input Data Siswa (JSON)</h2>
+
+      <!-- Form -->
+      <input type="text" id="nama" placeholder="Nama" />
+      <input type="text" id="kelas" placeholder="Kelas" />
+
+      <select id="jurusan">
+        <option value="">Pilih Jurusan</option>
+        <option>RPL</option>
+        <option>TKJ</option>
+        <option>AKL</option>
+      </select>
+
+      <button onclick="tambahData()">Simpan</button>
+
+      <!-- Tabel -->
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Kelas</th>
+            <th>Jurusan</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelData"></tbody>
+      </table>
+    </div>
+
+    <script>
+      // Array JSON untuk menyimpan data
+      let dataSiswa = [];
+
+      function tambahData() {
+        let nama = document.getElementById("nama").value;
+        let kelas = document.getElementById("kelas").value;
+        let jurusan = document.getElementById("jurusan").value;
+
+        if (nama === "" || kelas === "" || jurusan === "") {
+          alert("Semua data harus diisi!");
+          return;
+        }
+
+        // Membuat object JSON
+        let siswa = {
+          nama: nama,
+          kelas: kelas,
+          jurusan: jurusan,
+        };
+
+        // Simpan ke array
+        dataSiswa.push(siswa);
+
+        tampilkanData();
+
+        // reset form
+        document.getElementById("nama").value = "";
+        document.getElementById("kelas").value = "";
+        document.getElementById("jurusan").value = "";
+      }
+
+      function tampilkanData() {
+        let tabel = document.getElementById("tabelData");
+        tabel.innerHTML = "";
+
+        dataSiswa.forEach((siswa, index) => {
+          let baris = `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${siswa.nama}</td>
+                    <td>${siswa.kelas}</td>
+                    <td>${siswa.jurusan}</td>
+                    <td>
+                        <button class="hapus" onclick="hapusData(${index})">Hapus</button>
+                    </td>
+                </tr>
+            `;
+          tabel.innerHTML += baris;
+        });
+      }
+
+      function hapusData(index) {
+        dataSiswa.splice(index, 1);
+        tampilkanData();
+      }
+    </script>
+  </body>
+</html>
